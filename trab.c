@@ -1,11 +1,8 @@
 #include<stdlib.h>
 #include <stdio.h>
 #include<string.h>
-#include <time.h>
+
 #define max_nr_jogador 4
-
-
-
 
 typedef struct{
     int codigo_jogador;
@@ -63,24 +60,26 @@ void cadastrar_equipa(equipa dados1){
     printf("1.continuar\n0.sair para voltar ao menu\n");
     scanf("%d",&opc);
     }while(opc!=0);
-    FILE *file = fopen("recebe.dat","a");
-    if(file!=NULL)
+//fich
+    FILE *fich = fopen("recebe.dat","a");
+    if(fich!=NULL)
 	{
-	   	fprintf(file,"%d %s\n",dados1.codigo_equipa,dados1.nome);
-		printf("Cadastrado com sucesso.");
+	   	fprintf(fich,"%d %s\n",dados1.codigo_equipa,dados1.nome);
+		//printf("Cadastrado com sucesso.");
 	}
-	fclose(file);
+	fclose(fich);
 }
 void cadastrar_jogador(jogador dados){
     	char nome_jogador[40];
     	char apelido[40];
 		int opc,i;
     	system("cls");
+		//File *ficha;
 		
-		do{
+		
 		system("cls");
 		printf("Digite o numero do jogador:\n");	
-		 for(i=0; i<2; i++){
+		 for(i=0; i<=max_nr_jogador; i++){
 			scanf("%d",&dados.nr_jogador);	 		 
 		printf("Digite o codigo do jogor: \n");
 		scanf("%d",&dados.codigo_jogador);
@@ -92,34 +91,58 @@ void cadastrar_jogador(jogador dados){
 		setbuf(stdin,NULL);
 	 	printf("Digite a data de inicio do contrato:\n");
 		scanf("%s",&dados.data_in_contrato);
+		setbuf(stdin,NULL);
 		printf("Digite a data do fim do contrato:\n"); 
 		scanf("%s",&dados.data_fin_contrato);
+		setbuf(stdin,NULL);
 		printf("Digite numero de golos:\n");
 		scanf("%d",&dados.nr_golo);
 		}
+		do{
 		printf("1.Continuar\n0.sair\n");
 		scanf("%d",&opc);
 		}while(opc!=0);
+		FILE *fich = fopen("recebesegundo.dat","a");
+    if(fich!=NULL)
+	{
+	   	fprintf(fich,"%d %d %s %s %s %s %d \n",dados.nr_jogador,dados.codigo_jogador,dados.nome_jogador,dados.apelido,dados.data_in_contrato,dados.data_fin_contrato,dados.nr_golo);
+	
+	}
+	fclose(fich);
 }
 void mostrar_resultado(){
-		char last;
+		char pri,seg;
 		equipa equipa2;
-	    FILE *ficheiro;
+	    
+		FILE *ficheiro;
 		ficheiro=fopen("recebe.dat","r");
 
 		printf("nome: \n");
-		last = fscanf(ficheiro,"%d %s\n",&equipa2.codigo_equipa,equipa2.nome); // 
-		while(last!=EOF)
+		pri = fscanf(ficheiro,"%d %s\n",&equipa2.codigo_equipa,equipa2.nome); // 
+		while(pri!=EOF)
 		{
 			printf("%d %s\n",equipa2.codigo_equipa,equipa2.nome);
-			last = fscanf(ficheiro,"%d %s\n",&equipa2.codigo_equipa,equipa2.nome); // 
+			pri= fscanf(ficheiro,"%d %s\n",&equipa2.codigo_equipa,equipa2.nome); // 
 		}		
 		fclose(ficheiro);
+		
+		
+		//pagando jogadores
+		FILE *segundo_ficheiro;
+		segundo_ficheiro=fopen("recebesegundo.dat","r");
+		jogador joga;
+		seg =fscanf(segundo_ficheiro," %d %d %s %s %s %s %d \n",joga.nr_jogador,joga.codigo_jogador,joga.nome_jogador,joga.apelido,joga.data_in_contrato,joga.data_fin_contrato,joga.nr_golo);
+		while(seg!=EOF){
+			printf("%d %d %s %s %s %s %d \n",joga.codigo_jogador,joga.nome_jogador,joga.apelido,joga.data_in_contrato,joga.data_fin_contrato,joga.nr_golo);
+			seg=fscanf(segundo_ficheiro,"%d %d %s %s %s %s %d \n",joga.nr_golo,joga.codigo_jogador,joga.nome_jogador,joga.apelido,joga.data_in_contrato,joga.data_fin_contrato,joga.nr_golo);
+		}
+		fclose(segundo_ficheiro);
 }
 //metodo principal
 int main(){
-
+	
      menu01();
+     
 
     return 0;
 }
