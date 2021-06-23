@@ -54,11 +54,11 @@ void cadastrar_equipa(equipa *dados1){
     system("cls");
     do{
      printf("Digite o nome da equipa:\n");
-     scanf("%p",dados1->nome);
+     scanf("%s",&dados1.nome);
      //setbuf(stdin,NULL);
      fflush(stdin);
  	  printf("Digite o codigo da equipa:\n");
-    scanf("%p",dados1->codigo_equipa);
+    scanf("%d",&dados1.codigo_equipa);
     printf("1.continuar\n0.sair para voltar ao menu\n");
     scanf("%d",&opc);
     }while(opc!=0);
